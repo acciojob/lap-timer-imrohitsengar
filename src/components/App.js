@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./../styles/App.css";
 
 const App = () => {
@@ -6,6 +6,10 @@ const App = () => {
   const [isRunning, setIsRunning] = useState(false);
   const [lapTime, setLapTime] = useState([]);
   const intervalRef = useRef(null);
+
+  useEffect(() => {
+    return () => clearInterval(intervalRef.current);
+  }, []);
 
   const formatTime = (ms) => {
     const minutes = Math.floor(ms / 60000);
@@ -53,6 +57,11 @@ const App = () => {
       <button onClick={pauseTimer}>Pause</button>
       <button onClick={lapTimer}>Lap</button>
       <button onClick={resetTimer}>Reset</button>
+      <ul>
+        {lapTime.map((lap, index) => (
+          <li key={index}>Lap {index + 1}: {lap}</li>
+        ))}
+      </ul>
     </div>
   );
 };
